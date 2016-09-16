@@ -15,5 +15,7 @@ RUN echo 'export PATH=/opt/conda/bin:$PATH' > /etc/profile.d/conda.sh && \
 
 ENV PATH /opt/conda/bin:$PATH
 
+COPY . /root
+
 CMD [ "/bin/bash" ]
 
