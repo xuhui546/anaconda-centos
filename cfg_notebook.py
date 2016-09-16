@@ -1,12 +1,14 @@
+import string
 import argparse
 import os,re,subprocess
+from random import choice
 from IPython.lib import passwd
 
 # argument parser
 parser = argparse.ArgumentParser()
 parser.add_argument("-v", "--verbose", help="increase output verbosity", action="store_true", default=False)
 parser.add_argument("-n", "--confname", help="set ipython config folder name(default:mynbs)", action="store", default='mynbs')
-parser.add_argument("-i", "--password", help="set ipython config folder name(default:mypass)", action="store", default='mypass')
+parser.add_argument("-i", "--password", help="set ipython config folder name(default:mypass)", action="store")
 parser.add_argument("-p", "--port", help="set ipython config folder name(default:mypass)", type=int, action="store", default=8888)
 args = parser.parse_args()
 
@@ -14,7 +16,8 @@ args = parser.parse_args()
 bVerbose = args.verbose
 sConfName = args.confname
 # set ipython notebook login password
-sPassword = passwd(args.password)
+sPassword = args.password or ''.join([choice(string.ascii_letters+string.digits) for i in range(8)])
+sSha1 = passwd(sPassword)
 iPort = args.port
 
 sHome=os.path.expanduser('~')
@@ -61,6 +64,14 @@ c.NotebookApp.open_browser = False
 c.NotebookApp.password = u'{}'
 # It is a good idea to put it on a known, fixed port
 c.NotebookApp.port = {}
-""".format(sHome, sPassword, iPort))
+""".format(sHome, sSha1, iPort))
 bVerbose and print('{} has configured in {}'.format(sFilename, sPath))
 
+print("""
+============================================================
+Notebook config path: {}
+Notebook certificate path: {}
+Notebook password: {}
+Notebook port: {}
+============================================================
+""".format(sPath, sHome, sPassword, iPort))
