@@ -23,14 +23,7 @@ $ docker build -t xuhui546/anaconda-centos .
 To run the image and bind to host port 8888:
 
 ```
-$ docker run -d -p 8888:8888 xuhui546/anaconda-centos /bin/bash -c \
-"python /root/cfg_notebook.py -p 8888 &&\
-mkdir /opt/notebooks && \
-/opt/conda/bin/jupyter notebook \
-    --config=/root/.ipython/profile_mynbs/ipython_notebook_config.py \
-    --notebook-dir=/opt/notebooks \
-    --no-browser
-"
+$ docker run -d -p 8888:8888 xuhui546/anaconda-centos
 ```
 
 To get the password, check the logs of the container by running:
@@ -50,34 +43,23 @@ Notebook port: 8888
 ============================================================
 ```
 
-#### Credentials
+#### Custom
 
 If you want to preset arguments instead of a default ones, you can set the following variables:
 
 ```
-usage: cfg_notebook.py [-h] [-v] [-n CONFNAME] [-i PASSWORD] [-p PORT]
-
 optional arguments:
-  -h, --help            show this help message and exit
-  -v, --verbose         increase output verbosity
-  -n CONFNAME, --confname CONFNAME
-                        set ipython config folder name(default:mynbs)
-  -i PASSWORD, --password PASSWORD
-                        set ipython config folder name
-  -p PORT, --port PORT  set ipython config folder name(default:mypass)
+  -e "JUPYTER_NAME=nbs"            set jupyter config folder name(default:mynbs)
+  -e "JUPYTER_PORT=88"             set jupyter server listen port(default:8888)
+  -e "JUPYTER_PASS=mypass"         set jupyter login password(default:random)
+  -e "JUPYTER_WORKDIR=/root"       set jupyter workdir(default:/)
 ```
 
 On this example we will preset our custom password:
 
 ```
-$ docker run -d -p 8889:8889 xuhui546/anaconda-centos /bin/bash -c \
-"python /root/cfg_notebook.py -p 8889 -i hello\
-mkdir /opt/notebooks && \
-/opt/conda/bin/jupyter notebook \
-    --config=/root/.ipython/profile_mynbs/ipython_notebook_config.py \
-    --notebook-dir=/opt/notebooks \
-    --no-browser
-"
+$ docker run -d -p 8889:88 -e "JUPYTER_NAME=nbs" -e "JUPYTER_PORT=88" \
+-e "JUPYTER_PASS=mypass" -e "JUPYTER_WORKDIR=/root" xuhui546/anaconda-centos
 ```
 
 ## Copyright

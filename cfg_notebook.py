@@ -1,6 +1,6 @@
 import string
 import argparse
-import os,re,subprocess
+import os,sys,re,subprocess
 from random import choice
 from IPython.lib import passwd
 
@@ -8,21 +8,26 @@ from IPython.lib import passwd
 parser = argparse.ArgumentParser()
 parser.add_argument("-v", "--verbose", help="increase output verbosity", action="store_true", default=False)
 parser.add_argument("-n", "--confname", help="set ipython config folder name(default:mynbs)", action="store", default='mynbs')
-parser.add_argument("-i", "--password", help="set ipython config folder name(default:mypass)", action="store")
-parser.add_argument("-p", "--port", help="set ipython config folder name(default:mypass)", type=int, action="store", default=8888)
+parser.add_argument("-p", "--password", help="set ipython login password(default:random)", action="store")
+parser.add_argument("-l", "--listen", help="set ipython server listen port(default:8888)", type=int, action="store", default=8888)
 args = parser.parse_args()
 
 # set argument
+iPort = args.listen
 bVerbose = args.verbose
 sConfName = args.confname
+sHome = os.path.expanduser('~')
+sPath = sHome+'/.ipython/profile_{}/'.format(sConfName)
+sFilename = 'ipython_notebook_config.py'
+
+if os.path.exists(sPath):
+    print(sPath + ' already exists.\nexit configure.')
+    sys.exit()
+
 # set ipython notebook login password
 sPassword = args.password or ''.join([choice(string.ascii_letters+string.digits) for i in range(8)])
 sSha1 = passwd(sPassword)
-iPort = args.port
 
-sHome=os.path.expanduser('~')
-sPath=sHome+'/.ipython/profile_{}/'.format(sConfName)
-sFilename='ipython_notebook_config.py'
 
 # create ipython profile
 s = subprocess.Popen('ipython profile create {}'.format(sConfName), shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
@@ -75,3 +80,8 @@ Notebook password: {}
 Notebook port: {}
 ============================================================
 """.format(sPath, sHome, sPassword, iPort))
+
+
+
+
+
