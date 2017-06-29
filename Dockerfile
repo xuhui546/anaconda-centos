@@ -1,4 +1,4 @@
-FROM centos:7.2.1511
+FROM centos:7.3.1611
 
 MAINTAINER Xu Hui <xuhui546@hotmail.com>
 
@@ -9,7 +9,7 @@ RUN yum install -y wget bzip2 ca-certificates \
     git mercurial subversion
 
 RUN echo 'export PATH=/opt/conda/bin:$PATH' > /etc/profile.d/conda.sh && \
-    wget --quiet https://repo.continuum.io/archive/Anaconda3-4.1.1-Linux-x86_64.sh -O ~/anaconda.sh && \
+    wget --quiet https://repo.continuum.io/archive/Anaconda3-4.4.0-Linux-x86_64.sh -O ~/anaconda.sh && \
     /bin/bash ~/anaconda.sh -b -p /opt/conda && \
     rm ~/anaconda.sh
 
