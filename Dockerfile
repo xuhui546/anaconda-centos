@@ -14,15 +14,13 @@ RUN echo 'export PATH=/opt/conda/bin:$PATH' > /etc/profile.d/conda.sh && \
     rm ~/anaconda.sh
 
 ENV PATH /opt/conda/bin:$PATH
-ENV JUPYTER_NAME mynbs
 ENV JUPYTER_PORT 8888
 ENV JUPYTER_PASS ''
 ENV JUPYTER_WORKDIR /
 
 ADD ./cfg_notebook.py /root
-RUN echo $'python /root/cfg_notebook.py -n ${JUPYTER_NAME} -l ${JUPYTER_PORT} -p "${JUPYTER_PASS}" >& 1 \n\
-jupyter notebook --config=/root/.ipython/profile_${JUPYTER_NAME}/ipython_notebook_config.py \\\n\
---notebook-dir=${JUPYTER_WORKDIR} --allow-root --no-browser >& 1 \n\
+RUN echo $'python /root/cfg_notebook.py -l ${JUPYTER_PORT} -p "${JUPYTER_PASS}" >& 1 \n\
+jupyter notebook --notebook-dir=${JUPYTER_WORKDIR} --allow-root --no-browser >& 1 \n\
 /bin/bash \n\
 exit 0'>>/etc/rc.d/rc.local
 
