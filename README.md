@@ -4,7 +4,7 @@ A Dockerfile that produces a Docker Image for anaconda3 on centos7.
 
 ## anaconda version
 
-The `master` branch currently hosts centos7.2.1511 and  anaconda3.4.1.1.
+The `master` branch currently hosts centos7.3.1611 and  anaconda3.4.4.0.
 
 Different versions of anaconda are located at the github repo [branches](https://github.com/xuhui546/anaconda-centos/branches).
 
@@ -37,7 +37,7 @@ You will see an output like the following:
 ```
 ============================================================
 Notebook config path: /root/.ipython/profile_hehe/
-Notebook certificate path: /root
+Notebook certificate path: /root/.jupyter/
 Notebook password: iEum7cCP
 Notebook port: 8888
 ============================================================
@@ -49,7 +49,6 @@ If you want to preset arguments instead of a default ones, you can set the follo
 
 ```
 optional arguments:
-  -e "JUPYTER_NAME=nbs"            set jupyter config folder name(default:mynbs)
   -e "JUPYTER_PORT=88"             set jupyter server listen port(default:8888)
   -e "JUPYTER_PASS=mypass"         set jupyter login password(default:random)
   -e "JUPYTER_WORKDIR=/root"       set jupyter workdir(default:/)
@@ -58,7 +57,7 @@ optional arguments:
 On this example we will preset our custom password:
 
 ```
-$ docker run -d -p 8889:88 -e "JUPYTER_NAME=nbs" -e "JUPYTER_PORT=88" \
+$ docker run -d -p 8889:88 -e "JUPYTER_PORT=88" \
 -e "JUPYTER_PASS=mypass" -e "JUPYTER_WORKDIR=/root" xuhui546/anaconda-centos
 ```
 
