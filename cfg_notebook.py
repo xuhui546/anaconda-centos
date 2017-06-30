@@ -27,7 +27,7 @@ sSha1 = passwd(sPassword)
 
 
 # create ipython profile
-s = subprocess.Popen('jupyter notebook --generate-config', shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+s = subprocess.Popen('jupyter notebook --generate-config --allow-root', shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 o = s.communicate()
 bVerbose and print(o[0].decode())
 bVerbose and print(o[1].decode())
